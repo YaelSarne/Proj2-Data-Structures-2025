@@ -196,7 +196,7 @@ public class FibonacciHeap {
 	    }
 
 	    y.rank++;
-	    z.mark = false; // Reset the marked status
+	    z.mark = 0; // Reset the marked status
 	    return y;
 	}
 	
@@ -256,10 +256,24 @@ public class FibonacciHeap {
 	 * Decrease the key of x by diff and fix the heap. Return the number of cuts.
 	 * 
 	 */
-	public int decreaseKey(HeapNode x, int diff) 
-	{    
-		return 46; // should be replaced by student code
-	}
+		public int decreaseKey(HeapNode x, int diff) 
+		{    
+
+			x.key -= diff;
+			HeapNode y = x.parent;
+
+			if (y != null && x.key < y.key) {
+				cut(x, y);
+				cascadeCut(y);
+			}
+
+			if (x.key < min.key) {
+				min = x;
+			}
+
+			return x.key;
+
+		}
 
 	/**
 	 * 
