@@ -8,6 +8,7 @@ public class FibonacciHeap
 {
 	public HeapNode min;
 	private int n = 0;
+	private int c;
 	/**
 	 *
 	 * Constructor to initialize an empty heap.
@@ -16,7 +17,7 @@ public class FibonacciHeap
 	 */
 	public FibonacciHeap(int c)
 	{
-		// should be replaced by student code
+		this.c = c;
 	}
 
 	/**
@@ -144,7 +145,7 @@ public class FibonacciHeap
 	 */
 	public int size()
 	{
-		return 46; // should be replaced by student code
+		return n; // should be replaced by student code
 	}
 
 
@@ -171,4 +172,40 @@ public class FibonacciHeap
 		public HeapNode parent;
 		public int rank;
 	}
+
+
+
+
+/////////////////this is not part of this
+	@Override
+	public String toString() {
+		if (min == null) return "(empty heap)";
+		StringBuilder sb = new StringBuilder();
+		sb.append("Fibonacci Heap:\n");
+		HeapNode current = min;
+		do {
+			appendTree(current, "", true, sb);
+			current = current.next;
+		} while (current != min);
+		return sb.toString();
+	}
+
+	private void appendTree(HeapNode node, String prefix, boolean isTail, StringBuilder sb) {
+		sb.append(prefix)
+		.append(isTail ? "└── " : "├── ")
+		.append("(").append(node.key).append(")\n");
+
+		if (node.child != null) {
+			HeapNode child = node.child;
+			boolean first = true;
+			do {
+				HeapNode nextChild = child.next;
+				boolean isLast = (nextChild == node.child);
+				appendTree(child, prefix + (isTail ? "    " : "│   "), isLast, sb);
+				child = nextChild;
+				first = false;
+			} while (child != node.child);
+		}
+	}
+
 }
