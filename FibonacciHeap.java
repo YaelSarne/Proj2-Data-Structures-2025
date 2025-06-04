@@ -7,7 +7,7 @@
 public class FibonacciHeap
 {
 	public HeapNode min;
-	
+	private int n = 0;
 	/**
 	 *
 	 * Constructor to initialize an empty heap.
@@ -28,7 +28,34 @@ public class FibonacciHeap
 	 */
 	public HeapNode insert(int key, String info) 
 	{    
-		return null; // should be replaced by student code
+		HeapNode node = new HeapNode();
+        node.key = key;
+        node.info = info;
+        node.rank = 0;
+        node.parent = null;
+        node.child = null;
+
+        // Initially a single-node circular list
+        node.prev = node;
+        node.next = node;
+
+        // Merge into root list
+        if (min == null) {
+            min = node;
+        } else {
+            // Insert node into root list next to min
+            node.next = min.next;
+            node.prev = min;
+            min.next.prev = node;
+            min.next = node;
+
+            if (node.key < min.key) {
+                min = node;
+            }
+        }
+
+        n++;
+        return node;
 	}
 
 	/**
@@ -38,7 +65,7 @@ public class FibonacciHeap
 	 */
 	public HeapNode findMin()
 	{
-		return null; // should be replaced by student code
+		return min;
 	}
 
 	/**
