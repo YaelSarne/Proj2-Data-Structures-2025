@@ -3,23 +3,46 @@ public class FibonacciHeapTest {
     public static void main(String[] args) {
         FibonacciHeap heap = new FibonacciHeap(2);
 
-        System.out.println("Inserting nodes...");
-        heap.insert(9, "nine");
-        heap.insert(15, "fifteen");
-        heap.insert(23, "twenty-three");
-        heap.insert(40, "forty");
-        heap.insert(33, "thirty-three");
-        heap.insert(45, "forty-five");
-        heap.insert(58, "fifty-eight");
-        heap.insert(20, "twenty");
-        heap.insert(35, "thirty-five");
-        heap.insert(67, "sixty-seven");
+        System.out.println("🧱 Inserting nodes...");
 
-        System.out.println("\nHeap structure after insertions:");
+        int[] keys = {
+            100, 200, 300, 400, 500,
+            110, 210, 310, 410, 510,
+            120, 220, 320, 420, 520,
+            130, 230, 330, 430, 530
+        };
+
+        for (int key : keys) {
+            heap.insert(key, "val-" + key);
+        }
+
+        System.out.println("\n🗑 Forcing consolidation by repeated deleteMin()...");
+        for (int i = 0; i < 10; i++) {
+            heap.deleteMin();
+        }
+
+        System.out.println("\n🌳 Final Heap Structure (after merging):");
         System.out.println(heap);
+    }
 
-        // (Optional) Simulate manually linking children if you’re not implementing extractMin yet
-        System.out.println("Manually linking 15 -> 40, and 40 -> 45, 58 for structure test (simulated)");
+
+        // System.out.println("Inserting nodes...");
+        // heap.insert(9, "nine");
+        // heap.insert(15, "fifteen");
+        // heap.insert(23, "twenty-three");
+        // heap.insert(40, "forty");
+        // heap.insert(33, "thirty-three");
+        // heap.insert(45, "forty-five");
+        // heap.insert(58, "fifty-eight");
+        // heap.insert(20, "twenty");
+        // heap.insert(35, "thirty-five");
+        // heap.insert(67, "sixty-seven");
+
+        // System.out.println("\nHeap structure after insertions:");
+        // System.out.println(heap);
+
+        // // (Optional) Simulate manually linking children if you’re not implementing extractMin yet
+        // System.out.println("Manually linking 15 -> 40, and 40 -> 45, 58 for structure test (simulated)");
 
         // Simulate structure manually:
       //  FibonacciHeap.HeapNode node15 = heap.insert(15, "another fifteen");

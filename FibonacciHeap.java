@@ -8,7 +8,8 @@ public class FibonacciHeap
 {
 	public HeapNode min;
 	private int n = 0;
-	private int c;
+	private final int c;
+	
 	/**
 	 *
 	 * Constructor to initialize an empty heap.
@@ -81,6 +82,47 @@ public class FibonacciHeap
 
 	}
 
+
+	private void cascadeCut(HeapNode y) {
+		HeapNode z = y.parent;
+
+		if (z != null) {
+			y.mark++;
+
+			if (y.mark >= c - 1) {
+				cut(y, z);
+				cascadeCut(z);
+			}
+		}
+	}
+
+
+
+	private void cut(HeapNode x, HeapNode y) {
+		// Remove x from y's child list
+		if (x.next == x) {
+			y.child = null;
+		} else {
+			x.next.prev = x.prev;
+			x.prev.next = x.next;
+			if (y.child == x) {
+				y.child = x.next;
+			}
+		}
+
+		y.rank--;
+
+		// Add x to root list
+		x.prev = min;
+		x.next = min.next;
+		min.next.prev = x;
+		min.next = x;
+
+		x.parent = null;
+		x.mark = 0; // reset mark count on cut
+	}
+
+
 	/**
 	 * 
 	 * pre: 0<diff<x.key
@@ -91,7 +133,21 @@ public class FibonacciHeap
 	 */
 	public int decreaseKey(HeapNode x, int diff) 
 	{    
-		return 46; // should be replaced by student code
+
+		x.key -= diff;
+		HeapNode y = x.parent;
+
+		if (y != null && x.key < y.key) {
+			cut(x, y);
+			cascadeCut(y);
+		}
+
+		if (x.key < min.key) {
+			min = x;
+		}
+
+		return x.key;
+
 	}
 
 	/**
@@ -171,6 +227,7 @@ public class FibonacciHeap
 		public HeapNode prev;
 		public HeapNode parent;
 		public int rank;
+		private int mark;
 	}
 
 
